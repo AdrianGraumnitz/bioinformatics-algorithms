@@ -23,4 +23,35 @@ An index structure for efficient exact string matching, implemented using:
 - Clean separation of hashing, counting, and index construction
 
 **Location:**
-/qgramindex
+```
+qgram-index/
+```
+
+---
+
+## Project Structure
+
+```
+bioinformatics-algorithms/
+├── qgram-index/
+│   ├── QGramIndex.hpp
+│   ├── QGramIndex.cpp
+│   ├── QGramIndex_main.cpp
+│   └── a5_util.*
+├── README.md
+```
+
+Each algorithm is implemented independently in its own subdirectory.
+
+---
+
+## Author
+
+Adrian Graumnitz  
+Bioinformatics student, Freie Universität Berlin
+
+---
+
+## License
+
+This repository is intended for academic and educational use.
