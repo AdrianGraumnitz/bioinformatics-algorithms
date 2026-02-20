@@ -15,34 +15,56 @@ public:
   /// i.e. an object of the class can not be created without providing 2 sequences
   Alignment() = delete;  // no NOT implement this function. Just leave it as is.
   
-  /// Constructor with two sequences
-  /// Makes an internal copy of the sequences.
+  /**
+ * @brief Constructs an Alignment object for two sequences.
+ *
+ * @param seq_v Sequence aligned along the vertical axis.
+ * @param seq_h Sequence aligned along the horizontal axis.
+ */
   Alignment(const std::string& seq_v, const std::string& seq_h);
   
-  /// Compute the aligment (i.e. score and traceback)
-  /// given the three alignment parameters match, mismatch and gap.
-  /// If local_align == true, compute the local Smith-Waterman (SW) alignment (extra points), or throw
-  /// an exception if your implementation does not support SW.
+ /**
+ * @brief Computes the sequence alignment using either global or local DP.
+ *
+ * @param match       Score added for matching characters.
+ * @param mismatch    Penalty applied for mismatching characters.
+ * @param gap         Penalty applied for gap insertion.
+ * @param local_align If true, performs Smith–Waterman (local);
+ *                    otherwise Needleman–Wunsch (global).
+ */
   void compute(const int match, const int mismatch, const int gap, const bool local_align = false);
   
-  /// Return the score of the alignment;
-  /// Throws an exception if compute(...) was not called first
+  /**
+ * @brief Returns the computed alignment score.
+ *
+ * @return Final alignment score.
+ * @throws std::logic_error If compute() has not been called yet.
+ */
   int getScore() const;
   
-  /// Output alignment into three strings.
-  /// Gaps are denoted as '-' in sequences.
-  /// The gap-string uses '|' (match) and ' ' (mismatch/gap).
-  /// Note: all strings are equal in size
-  /// e.g.
-  /// a1:   "IMISSMISSIS-SIPPI-"
-  /// gaps: " |   ||||||  |||| "
-  /// a2:   "-M--YMISSISAHIPPIE"
-  /// , where a1 corresponds to seq1, etc.
-  /// Throws an exception if compute(...) was not called first
+  /**
+ * @brief Returns the reconstructed alignment strings.
+ *
+ * @param a1   Aligned version of the first sequence (including gaps).
+ * @param gaps String indicating matches ('|') and mismatches/gaps (' ').
+ * @param a2   Aligned version of the second sequence (including gaps).
+ *
+ * @throws std::logic_error If compute() has not been called yet.
+ */
   void getAlignment(std::string& a1, std::string& gaps, std::string& a2) const;
   
   
 private:
+
+    /**
+ * @brief Direction indicators used for traceback.
+ *
+ * Encodes the predecessor direction of each DP cell:
+ * - DIAGONAL   → match/mismatch
+ * - HORIZONTAL → gap in vertical sequence
+ * - VERTIKAL   → gap in horizontal sequence
+ * - HOME       → traceback stop (used in local alignment)
+ */
 	enum class Dir : int {
 		HOME = 0,
 		DIAGONAL = 1,
@@ -63,7 +85,7 @@ private:
 	bool _local_align{};
 
 	/**
- * @brief Computes a global sequence alignment using the Needleman�Wunsch algorithm.
+ * @brief Computes a global sequence alignment using the NeedlemanWunsch algorithm.
  *
  * @param match     Score for matching characters
  * @param mismatch  Penalty for mismatching characters
@@ -72,7 +94,7 @@ private:
 	void nw(const int match, const int mismatch, const int gap);
 
 	/**
- * @brief Computes a local sequence alignment using the Smith�Waterman algorithm.
+ * @brief Computes a local sequence alignment using the SmithWaterman algorithm.
  *
  * @param match     Score for matching characters
  * @param mismatch  Penalty for mismatching characters
