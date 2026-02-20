@@ -59,7 +59,7 @@ visualization - Clean separation between interface and implementation
     ├── alignment/
     │   ├── Alignment.hpp
     │   ├── Alignment.cpp
-    │   └── main.cpp
+    │   └── Alignment_main.cpp
     ├── README.md
 
 Each algorithm is implemented independently in its own subdirectory.
